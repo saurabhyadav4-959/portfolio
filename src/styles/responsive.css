@@ -1,0 +1,17 @@
+@media (max-width: 1024px) {
+  .section-inner {
+    width: min(100% - 40px, 920px);
+  }
+}
+
+@media (max-width: 768px) {
+  .section-inner {
+    width: min(100% - 32px, 680px);
+  }
+}
+
+@media (max-width: 480px) {
+  .section-inner {
+    width: min(100% - 24px, 420px);
+  }
+}
