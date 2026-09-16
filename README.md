@@ -95,7 +95,9 @@ modern-portfolio/
 │   ├── types/
 │   │   └── index.ts
 │   ├── App.tsx
-│   └── main.tsx
+│   ├── main.tsx
+│   ├── styled.d.ts
+│   └── styles.d.ts
 ├── index.html
 ├── package.json
 ├── tsconfig.json
