@@ -1,55 +1,95 @@
-import { FiGithub, FiLinkedin } from 'react-icons/fi';
+import { FiGithub, FiHeart, FiLinkedin, FiMail, FiTwitter } from 'react-icons/fi';
 import styled from 'styled-components';
 
 const FooterWrap = styled.footer`
-  padding: 34px 0;
+  padding: 40px 0 28px;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.surface};
 `;
 
-const Inner = styled.div`
-  width: min(1120px, calc(100% - 40px));
+const Container = styled.div`
+  width: min(1200px, calc(100% - 48px));
   margin: 0 auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   gap: 20px;
+  text-align: center;
 
-  @media (max-width: 600px) {
-    align-items: flex-start;
-    flex-direction: column;
+  @media (max-width: 640px) {
+    width: calc(100% - 32px);
   }
 `;
 
-const Brand = styled.div`
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-`;
-
-const Muted = styled.p`
-  margin: 6px 0 0;
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 0.78rem;
-`;
-
-const Socials = styled.div`
+const SocialRow = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 12px;
+`;
+
+const SocialLink = styled.a`
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  color: ${({ theme }) => theme.colors.textMuted};
+  background: ${({ theme }) => theme.colors.surfaceSubtle};
+  transition: all 180ms ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.accent};
+    border-color: ${({ theme }) => theme.colors.accent};
+    transform: translateY(-2px);
+  }
+`;
+
+const MadeWith = styled.p`
+  font-size: 0.84rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const HeartIcon = styled(FiHeart)`
+  color: #ef4444;
+  fill: #ef4444;
+`;
+
+const Copyright = styled.p`
+  font-size: 0.76rem;
+  color: ${({ theme }) => theme.colors.textSubtle};
+  font-family: 'JetBrains Mono', monospace;
 `;
 
 export function Footer() {
   return (
     <FooterWrap>
-      <Inner>
-        <div>
-          <Brand>Vinayak Singh</Brand>
-          <Muted>© {new Date().getFullYear()} Vinayak Singh. Student developer portfolio.</Muted>
-        </div>
-        <Socials>
-          <a className="icon-button" href="#" aria-label="GitHub placeholder"><FiGithub /></a>
-          <a className="icon-button" href="#" aria-label="LinkedIn placeholder"><FiLinkedin /></a>
-        </Socials>
-      </Inner>
+      <Container>
+        <SocialRow>
+          <SocialLink href="https://github.com/saurabh-yadav" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <FiGithub size={17} />
+          </SocialLink>
+          <SocialLink href="https://linkedin.com/in/saurabh-yadav" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <FiLinkedin size={17} />
+          </SocialLink>
+          <SocialLink href="https://twitter.com/saurabh_yadav" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+            <FiTwitter size={17} />
+          </SocialLink>
+          <SocialLink href="mailto:saurabh.yadav@email.com" aria-label="Email">
+            <FiMail size={17} />
+          </SocialLink>
+        </SocialRow>
+
+        <MadeWith>
+          Made with <HeartIcon size={14} /> and React
+        </MadeWith>
+
+        <Copyright>
+          © {new Date().getFullYear()} Saurabh Yadav. All rights reserved.
+        </Copyright>
+      </Container>
     </FooterWrap>
   );
 }

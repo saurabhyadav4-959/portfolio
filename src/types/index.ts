@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type ThemeMode = 'light' | 'dark';
 
 export interface ThemeConfig {
@@ -6,13 +8,23 @@ export interface ThemeConfig {
     background: string;
     surface: string;
     surfaceElevated: string;
+    surfaceSubtle: string;
     text: string;
     textMuted: string;
+    textSubtle: string;
     border: string;
+    borderFocus: string;
     accent: string;
     accentStrong: string;
     accentSoft: string;
+    accentGlow: string;
+    success: string;
+    successSoft: string;
+    warning: string;
+    warningSoft: string;
     shadow: string;
+    cardHighlight: string;
+    codeBg: string;
   };
 }
 
@@ -21,46 +33,34 @@ export interface NavigationLink {
   label: string;
 }
 
+export interface Skill {
+  name: string;
+  icon: string;
+  category: 'Languages' | 'Frontend' | 'Backend' | 'Tools';
+  proficiency: number; // 0-100
+}
+
 export interface Project {
   id: number;
   title: string;
   description: string;
-  technologies: string[];
-  icon: string;
+  techStack: string[];
   githubUrl: string;
   liveUrl?: string;
-}
-
-export interface Skill {
-  id: number;
-  name: string;
-  category: string;
+  gradient: string;
   icon: string;
 }
 
-export interface ProjectCardProps {
-  project: Project;
-}
-
-export interface SkillCardProps {
-  skill: Skill;
+export interface SocialLink {
+  name: string;
+  url: string;
+  icon: string;
 }
 
 export interface ContactFormData {
   name: string;
   email: string;
   message: string;
-}
-
-export interface ContactErrors {
-  name?: string;
-  email?: string;
-  message?: string;
-}
-
-export interface SectionProps {
-  id?: string;
-  children: React.ReactNode;
 }
 
 export interface ThemeToggleProps {

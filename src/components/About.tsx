@@ -1,122 +1,223 @@
-import { FiBookOpen, FiCpu, FiLayers } from 'react-icons/fi';
-import styled from 'styled-components';
+import { FiCode, FiFolder, FiUser } from 'react-icons/fi';
+import styled, { keyframes } from 'styled-components';
+import { aboutStats } from '../data/portfolioData';
 
+/* ─── Animations ─── */
+const fadeInUp = keyframes`
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+/* ─── Styles ─── */
 const Section = styled.section`
-  padding: 110px 0;
+  padding: 100px 0;
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  position: relative;
 `;
 
-const Inner = styled.div`
-  width: min(1120px, calc(100% - 40px));
+const Container = styled.div`
+  width: min(1200px, calc(100% - 48px));
   margin: 0 auto;
-`;
 
-const Header = styled.div`
-  max-width: 680px;
-  margin-bottom: 48px;
-`;
-
-const Kicker = styled.p`
-  margin: 0 0 10px;
-  color: ${({ theme }) => theme.colors.accent};
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-`;
-
-const Title = styled.h2`
-  margin: 0;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.1rem, 5vw, 3.7rem);
-  line-height: 1;
-  letter-spacing: -0.055em;
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 70px;
-  align-items: start;
-
-  @media (max-width: 820px) {
-    grid-template-columns: 1fr;
-    gap: 38px;
+  @media (max-width: 640px) {
+    width: calc(100% - 32px);
   }
 `;
 
-const Copy = styled.div`
+const SectionHeader = styled.div`
+  max-width: 640px;
+  margin-bottom: 48px;
+  animation: ${fadeInUp} 0.6s ease-out;
+`;
+
+const Kicker = styled.div`
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.accent};
+  margin-bottom: 8px;
+  font-family: 'JetBrains Mono', monospace;
+`;
+
+const SectionTitle = styled.h2`
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: -0.03em;
+  color: ${({ theme }) => theme.colors.text};
+  margin-bottom: 12px;
+`;
+
+const SectionDescription = styled.p`
   color: ${({ theme }) => theme.colors.textMuted};
-  line-height: 1.85;
   font-size: 1rem;
-
-  p { margin: 0 0 18px; }
+  line-height: 1.7;
 `;
 
-const Highlights = styled.div`
+const ContentGrid = styled.div`
   display: grid;
-  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 `;
 
-const Card = styled.div`
+const AboutImageWrap = styled.div`
+  position: relative;
   display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  padding: 18px;
+  justify-content: center;
+  animation: ${fadeInUp} 0.6s ease-out 0.15s both;
+`;
+
+const ImageCard = styled.div`
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.border};
+  box-shadow: ${({ theme }) => theme.colors.shadow};
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, ${({ theme }) => theme.colors.accent}, #8b5cf6, #ec4899);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+`;
+
+const AboutText = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: ${fadeInUp} 0.6s ease-out 0.3s both;
+`;
+
+const Paragraph = styled.p`
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: 1rem;
+  line-height: 1.8;
+`;
+
+const Highlight = styled.span`
+  color: ${({ theme }) => theme.colors.accent};
+  font-weight: 600;
+`;
+
+const StatsRow = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+`;
+
+const StatCard = styled.div`
+  padding: 20px 16px;
   border-radius: 16px;
   background: ${({ theme }) => theme.colors.surfaceElevated};
-  transition: transform 180ms ease, border-color 180ms ease;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  text-align: center;
+  transition: transform 200ms ease, border-color 200ms ease;
 
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
     border-color: ${({ theme }) => theme.colors.accent};
   }
 `;
 
-const IconBox = styled.div`
-  width: 40px;
-  height: 40px;
-  flex: 0 0 auto;
+const StatIcon = styled.div`
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  color: ${({ theme }) => theme.colors.accent};
+  border-radius: 10px;
+  margin: 0 auto 10px;
   background: ${({ theme }) => theme.colors.accentSoft};
+  color: ${({ theme }) => theme.colors.accent};
 `;
+
+const StatValue = styled.div`
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.text};
+  margin-bottom: 2px;
+`;
+
+const StatLabel = styled.div`
+  font-size: 0.76rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+`;
+
+const statIcons = [<FiFolder size={18} />, <FiCode size={18} />, <FiUser size={18} />];
 
 export function About() {
   return (
     <Section id="about">
-      <Inner>
-        <Header>
-          <Kicker>About me</Kicker>
-          <Title>A student mindset, with a builder&apos;s curiosity.</Title>
-        </Header>
+      <Container>
+        <SectionHeader>
+          <Kicker>About Me</Kicker>
+          <SectionTitle>Getting to Know Me</SectionTitle>
+          <SectionDescription>
+            A brief introduction about who I am and what drives my passion for technology.
+          </SectionDescription>
+        </SectionHeader>
 
-        <Grid>
-          <Copy>
-            <p>
-              I&apos;m Vinayak Singh, a Computer Engineering student at SLRTCE who enjoys turning
-              ideas into practical software experiences.
-            </p>
-            <p>
-              My interests include web development, React, TypeScript, Python, Machine Learning,
-              software development, and problem solving. I&apos;m focused on strengthening my
-              fundamentals while exploring tools that help me build clean and useful applications.
-            </p>
-            <p>
-              This portfolio reflects that learning journey: hands-on projects, reusable React
-              components, thoughtful styling, and a continuous interest in learning what comes next.
-            </p>
-          </Copy>
+        <ContentGrid>
+          <AboutImageWrap>
+            <ImageCard>
+              <img src="/avatar.jpg" alt="Saurabh Yadav" />
+            </ImageCard>
+          </AboutImageWrap>
 
-          <Highlights>
-            <Card><IconBox><FiLayers /></IconBox><div><strong>Web Development</strong><br /><span>React, TypeScript & modern UI</span></div></Card>
-            <Card><IconBox><FiCpu /></IconBox><div><strong>Problem Solving</strong><br /><span>Learning by building practical projects</span></div></Card>
-            <Card><IconBox><FiBookOpen /></IconBox><div><strong>Continuous Learning</strong><br /><span>Exploring software and ML concepts</span></div></Card>
-          </Highlights>
-        </Grid>
-      </Inner>
+          <AboutText>
+            <Paragraph>
+              Hey there! I'm <Highlight>Saurabh Yadav</Highlight>, a Computer Science Engineering
+              student who is deeply passionate about creating impactful digital experiences. I believe
+              in writing clean, efficient code that solves real-world problems.
+            </Paragraph>
+
+            <Paragraph>
+              My journey in tech started with curiosity about how things work under the hood, and
+              it has grown into a full-blown love affair with <Highlight>web development</Highlight>,{' '}
+              <Highlight>problem solving</Highlight>, and <Highlight>software engineering</Highlight>.
+              I'm constantly learning and exploring new technologies to expand my skill set.
+            </Paragraph>
+
+            <Paragraph>
+              When I'm not coding, you'll find me exploring new technologies, contributing to
+              open-source, or solving competitive programming challenges. I'm always open to
+              collaborating on exciting projects!
+            </Paragraph>
+
+            <StatsRow>
+              {aboutStats.map((stat, idx) => (
+                <StatCard key={stat.label}>
+                  <StatIcon>{statIcons[idx]}</StatIcon>
+                  <StatValue>{stat.value}</StatValue>
+                  <StatLabel>{stat.label}</StatLabel>
+                </StatCard>
+              ))}
+            </StatsRow>
+          </AboutText>
+        </ContentGrid>
+      </Container>
     </Section>
   );
 }

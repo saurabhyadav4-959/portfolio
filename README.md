@@ -1,206 +1,116 @@
-# Modern Professional Portfolio
+# React Performance Lab
 
-A polished, responsive personal portfolio for **Vinayak Singh**, a Computer Engineering student and aspiring software developer.
+> **Interactive React Performance Optimization Dashboard**  
+> Analyze, optimize, and understand React rendering performance, code splitting, memoization, and empirical profiling metrics.
 
-This project was created for a **React — Styling in React** assignment and intentionally demonstrates several styling approaches together: external CSS, inline styles, styled-components/CSS-in-JS, Flexbox, CSS Grid, responsive media queries, and theme-based styling.
+---
 
-## Features
+## Overview
 
-- Modern student-developer portfolio layout
-- Responsive navigation with mobile menu
-- Smooth scrolling between sections
-- Dark/light theme toggle
-- Theme persistence with `localStorage`
-- Reusable React + TypeScript components
-- Skills and project cards rendered from typed data
-- Contact form with client-side validation
-- Frontend-only success state for the contact form
-- Hover, focus, and subtle transition effects
-- Reduced-motion support
-- Accessible labels and interactive controls
-- No fake work experience, achievements, statistics, or social profiles
+**React Performance Lab** is a modern developer dashboard built with **React 19**, **TypeScript**, and **Vite**. Inspired by design systems from Linear, Vercel, and modern developer tooling, it provides interactive testbeds and empirical diagnostics to demonstrate core React performance optimization strategies:
 
-## Technologies
+- **Component Reconciliation Isolation:** Eliminating redundant child re-renders via `React.memo`.
+- **Computation Caching:** Caching algorithmic sorting and filtering over large datasets using `useMemo`.
+- **Dynamic Asset Splitting:** Deferring non-critical module payloads with `React.lazy` and `<Suspense>`.
+- **Empirical Profiling:** Native instrumentation with React's `<Profiler>` API and DevTools flamegraph analysis.
+- **Side-by-Side Benchmarking:** Before vs. After architectural comparisons and real-world production case studies.
 
-- React 19
-- TypeScript 7
-- Vite 8
-- styled-components 6
-- React Icons 5
-- HTML
-- CSS
+---
 
-The package versions reflect stable npm releases checked while this project was generated.
+## Core Optimization Pillars
 
-## Installation
+### 1. `React.memo`
+Performs shallow comparison on component props to skip reconciliation passes when parent state updates without changing child inputs.
+```tsx
+const ProductCard = React.memo(function ProductCard({ product }) {
+  return (
+    <article className="card">
+      <h4>{product.name}</h4>
+      <p>{product.price}</p>
+    </article>
+  );
+});
+```
 
-> Vite 8 requires a compatible modern Node.js version. Use Node.js 20.19+ or 22.12+.
+### 2. `useMemo`
+Caches the return value of expensive synchronous calculations between renders, re-evaluating only when explicitly listed dependencies mutate.
+```tsx
+const filteredProducts = useMemo(() => {
+  return products.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+}, [products, search]);
+```
 
-1. Extract the ZIP.
-2. Open the `modern-portfolio` folder in VS Code.
-3. Open the terminal.
-4. Install dependencies:
+### 3. Code Splitting & Lazy Loading
+Splits monolithic bundles into discrete network chunks loaded on-demand, reducing initial JavaScript parse and execution time.
+```tsx
+const LazyAuditModule = React.lazy(() => import('./LazyAuditModule'));
 
+<Suspense fallback={<LoadingSpinner />}>
+  <LazyAuditModule />
+</Suspense>
+```
+
+### 4. Native React Profiling
+Records mount and commit phase metrics, `actualDuration`, and `baseDuration` in real time:
+```tsx
+<Profiler id="ReactPerformanceLab" onRender={handleProfilerRender}>
+  <Dashboard />
+</Profiler>
+```
+
+---
+
+## Dashboard Sections
+
+1. **Telemetry Overview:** High-level metrics tracking Initial Render (42 ms), Re-render Events (18), Bundle Size (186 KB), and Optimization Gain (37%).
+2. **Optimization Techniques:** Six in-depth cards highlighting before/after concepts, category tags, and expandable syntax examples.
+3. **Before vs After:** Side-by-side comparative table detailing render behaviors, data processing pipelines, and bundle footprints.
+4. **Live Interactive Demonstrations:**
+   - **React.memo Demo:** Live parent ticker showing unmemoized component renders incrementing while `React.memo` remains locked.
+   - **useMemo Benchmark:** Query filtering over 4,800 items with live sub-millisecond execution telemetry versus unmemoized recalculation.
+   - **Code Splitting Demo:** Interactive chunk mounting and unmounting through React Suspense.
+5. **Performance Profiling:** In-depth guide to React DevTools Profiler, commit phases, and live telemetry log capturing actual durations.
+6. **Case Studies:** Three real-world production scenarios (Unnecessary Re-renders, Expensive Calculation, and Large Initial Bundle).
+7. **Performance Audit Form:** Fully validated interactive checklist tool ensuring components meet production performance guardrails.
+
+---
+
+## Technology Stack
+
+- **React 19**
+- **TypeScript 7**
+- **Vite 8**
+- **styled-components 6**
+- **React Icons 5**
+
+---
+
+## Getting Started
+
+### 1. Installation
 ```bash
 npm install
 ```
 
-## Run the project
-
-Start the development server:
-
+### 2. Development Server
 ```bash
 npm run dev
 ```
+Open the local URL shown by Vite in your browser.
 
-Then open the local URL shown by Vite in your browser.
-
-## Production build
-
+### 3. Production Build
 ```bash
 npm run build
 ```
 
 Preview the production build:
-
 ```bash
 npm run preview
 ```
 
-## Project structure
+---
 
-```text
-modern-portfolio/
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   │   ├── About.tsx
-│   │   ├── Contact.tsx
-│   │   ├── Education.tsx
-│   │   ├── Footer.tsx
-│   │   ├── Hero.tsx
-│   │   ├── Navbar.tsx
-│   │   ├── ProjectCard.tsx
-│   │   ├── Projects.tsx
-│   │   ├── Skills.tsx
-│   │   └── ThemeToggle.tsx
-│   ├── data/
-│   │   ├── navigation.ts
-│   │   ├── projects.ts
-│   │   └── skills.ts
-│   ├── styles/
-│   │   ├── global.css
-│   │   └── responsive.css
-│   ├── types/
-│   │   └── index.ts
-│   ├── App.tsx
-│   ├── main.tsx
-│   ├── styled.d.ts
-│   └── styles.d.ts
-├── index.html
-├── package.json
-├── tsconfig.json
-├── tsconfig.app.json
-├── tsconfig.node.json
-├── vite.config.ts
-├── .gitignore
-└── README.md
-```
-
-## Styling techniques demonstrated
-
-### External CSS
-
-`src/styles/global.css` contains global browser rules, typography, selection styling, reduced-motion support, and basic element defaults. `responsive.css` demonstrates media queries.
-
-### Inline styling
-
-`ThemeToggle.tsx` contains a small meaningful inline style for icon alignment. `Hero.tsx` also uses a small inline style for the decorative code icon.
-
-### styled-components
-
-The main UI uses reusable styled components such as navigation, cards, sections, buttons, form fields, and project layouts.
-
-### CSS-in-JS and themes
-
-`ThemeProvider` supplies typed light and dark theme objects. Styled components read values such as:
-
-- background
-- surface
-- text
-- muted text
-- border
-- accent
-- shadows
-
-The selected mode is stored in `localStorage`, so refreshing the page keeps the chosen theme.
-
-### Flexbox
-
-Flexbox is used for the navbar, navigation links, action groups, buttons, tags, footer, and other aligned UI.
-
-### CSS Grid
-
-CSS Grid is used for the hero layout, skills cards, project cards, education/contact layouts, and responsive content.
-
-## TypeScript concepts used
-
-The project intentionally uses TypeScript throughout React components.
-
-Examples include:
-
-- `Project` interface for project data
-- `Skill` interface for skill data
-- `NavigationLink` interface for navigation data
-- `ThemeConfig` and `ThemeMode` for theming
-- `ProjectCardProps` and `SkillCardProps` for component props
-- `ContactFormData` and `ContactErrors` for form state
-- Typed React event handling with `FormEvent<HTMLFormElement>`
-- Typed state with `useState`
-- Union types such as `'light' | 'dark'`
-
-No `any` type is required by the project.
-
-## Theme switching
-
-The navbar contains a sun/moon toggle.
-
-When clicked:
-
-1. React changes the `ThemeMode`.
-2. `ThemeProvider` supplies the corresponding theme object.
-3. styled-components update colors throughout the UI.
-4. The selected value is saved as `portfolio-theme` in `localStorage`.
-5. On refresh, the saved theme is restored.
-
-## Responsive design
-
-The layout is designed for desktop, laptop, tablet, and mobile widths.
-
-The mobile navbar becomes a hamburger menu, project cards collapse to one column, skills resize from five columns to fewer columns, the hero becomes vertical, and the contact form adapts to smaller screens.
-
-## Placeholders to replace
-
-Replace these before using the portfolio publicly:
-
-- `[vinayak.singh.demo@example.com]`
-- Project GitHub `#` links in `src/data/projects.ts`
-- Footer GitHub `#` link
-- Footer LinkedIn `#` link
-- Any other personal profile URLs you want to add
-- Optional live demo URLs in the project data
-
-The project deliberately does **not** invent real social profiles or repository URLs.
-
-## Future improvements
-
-Possible next steps:
-
-- Connect the contact form to a real backend or email service
-- Add real project screenshots
-- Add real GitHub and LinkedIn URLs
-- Add a downloadable resume
-- Add more project details or dedicated project pages
-- Add a CMS or API for project data
-- Add automated tests
+## License
+MIT
